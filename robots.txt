@@ -8,4 +8,4 @@ User-agent: *
 
 Allow: /
 
-Sitemap: https://tpz4hm662z-rgb.github.io/calculadora-cantidad-leche-tomas-bebe/sitemap.xml
+Sitemap: https://tpz4hm662z-rgb.github.io/calculadora-de-cantidad-de-leche-y-tomas-del-bebe/sitemap.xml

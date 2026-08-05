@@ -2,6 +2,8 @@
 
 Herramienta web orientativa de Herramientas360 para estimar rangos diarios de leche y tomas durante el primer año de vida. Adapta el informe a la edad, el peso, el tipo de alimentación, el nacimiento y el inicio de la alimentación complementaria.
 
+URL oficial: https://tpz4hm662z-rgb.github.io/calculadora-de-cantidad-de-leche-y-tomas-del-bebe/
+
 ## Alcance
 
 - Fórmula infantil, lactancia materna directa, leche extraída y lactancia mixta.
@@ -51,7 +53,7 @@ sw.js
 
 ## Privacidad y producción
 
-Los datos introducidos y el historial permanecen en el navegador mediante almacenamiento local. No existe envío de datos personales a un servidor. Antes de publicar en el dominio definitivo se debe verificar manualmente la URL canónica, la analítica configurada, el diálogo nativo de compartir e impresión y la instalación PWA en los navegadores objetivo.
+Los datos introducidos y el historial permanecen en el navegador mediante almacenamiento local. Google Analytics 4 registra únicamente los nombres agregados de seis interacciones (`generate_report`, `reset_form`, `print_report`, `share_report`, `view_history` y `clear_history`), sin edad, peso, alimentación, prematuridad, cantidades, tomas ni datos sanitarios o personales. La URL canónica y la analítica corresponden a la publicación oficial.
 
 ## Licencia
 

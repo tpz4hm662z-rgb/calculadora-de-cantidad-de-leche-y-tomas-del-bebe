@@ -7,7 +7,7 @@ const tipos=new Set(schema["@graph"].flatMap((x)=>Array.isArray(x["@type"])?x["@
 test("schema principal es JSON válido",()=>assert(schema&&schema["@context"]==="https://schema.org"));
 for(const tipo of ["WebPage","MedicalWebPage","SoftwareApplication","BreadcrumbList","Organization"])test(`schema incluye ${tipo}`,()=>assert(tipos.has(tipo)));
 test("breadcrumb schema tiene orden válido",()=>{const b=schema["@graph"].find((x)=>x["@type"]==="BreadcrumbList");equal(JSON.stringify(b.itemListElement.map((x)=>x.position)),JSON.stringify([1,2,3]));});
-test("SEO contiene canonical coherente",()=>assert(html.includes('<link rel="canonical" href="https://tpz4hm662z-rgb.github.io/calculadora-cantidad-leche-tomas-bebe/">')));
+test("SEO contiene canonical coherente",()=>{const url="https://tpz4hm662z-rgb.github.io/calculadora-de-cantidad-de-leche-y-tomas-del-bebe/";assert(html.includes(`<link rel="canonical" href="${url}">`));assert(schema["@graph"].filter((x)=>["WebPage","MedicalWebPage","SoftwareApplication"].some((tipo)=>(Array.isArray(x["@type"])?x["@type"]:[x["@type"]]).includes(tipo))).every((x)=>x.url===url&&x["@id"].startsWith(url)));});
 test("SEO contiene Open Graph",()=>assert(/property="og:title"/.test(html)&&/property="og:description"/.test(html)&&/property="og:url"/.test(html)));
 test("SEO contiene Twitter Card",()=>assert(/name="twitter:card" content="summary"/.test(html)));
 test("HTML tiene un único H1",()=>equal((html.match(/<h1\b/g)||[]).length,1));

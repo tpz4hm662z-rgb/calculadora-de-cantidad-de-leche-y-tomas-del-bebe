@@ -41,4 +41,4 @@ test("Service Worker define install activate y fetch",()=>assert(["install","act
 test("Service Worker no cachea respuestas externas",()=>assert(sw.includes("origin!==self.location.origin")));
 const css=readFileSync(new URL("../../css/style.css",import.meta.url),"utf8");
 test("impresión A4 está preparada",()=>assert(css.includes("@page{size:A4")&&css.includes("@media print")));
-test("movimiento reducido está contemplado",()=>assert(css.includes("prefers-reduced-motion:reduce")));
+test("movimiento reducido está contemplado",()=>{assert(css.includes("prefers-reduced-motion:reduce"));const html=readFileSync(new URL("../../index.html",import.meta.url),"utf8");equal((html.match(/googletagmanager\.com\/gtag\/js/g)||[]).length,1);equal((html.match(/gtag\("config","G-QH8MJ6LVHN"\)/g)||[]).length,1);assert(!/gtag\("(?:config|event)"[^)]*(?:edad|peso|alimentacion|prematur|cantidad|tomas)/i.test(html));});
