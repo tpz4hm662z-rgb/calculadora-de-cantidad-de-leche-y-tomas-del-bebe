@@ -1,0 +1,10 @@
+import { test, assert, equal } from "./test-runner.js";
+import { babyFeedingEngine } from "../engines/baby-feeding-engine.js";
+import { obtenerContenido } from "../content/content-provider.js";
+import { entrada } from "./fixtures.js";
+const modalidades=["formula","materna","mixta","extraida"];
+test("cada modalidad usa contenido distinto",()=>equal(new Set(modalidades.map((tipo)=>babyFeedingEngine(entrada({alimentacion:tipo})).interpretacion.claveContenido)).size,4));
+for(const tipo of modalidades)test(`interpretación ${tipo} tiene explicación y limitación`,()=>{const i=babyFeedingEngine(entrada({alimentacion:tipo})).interpretacion;assert(i.clavesExplicacion.length>0);assert(i.clavesLimitacion.length>0);assert(obtenerContenido().introducciones[i.claveContenido]);});
+test("prematuro selecciona interpretación individual",()=>equal(babyFeedingEngine(entrada({nacimiento:"prematuro"})).interpretacion.claveContenido,"prematuro"));
+test("recomendaciones tienen contenido",()=>{const r=babyFeedingEngine(entrada());assert(r.recomendaciones.every((clave)=>obtenerContenido().recomendaciones[clave]));});
+test("señales tienen contenido",()=>{const r=babyFeedingEngine(entrada());assert(r.senales.every((clave)=>obtenerContenido().senales[clave]));});

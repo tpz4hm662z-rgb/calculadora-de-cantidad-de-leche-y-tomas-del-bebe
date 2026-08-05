@@ -1,0 +1,10 @@
+import { test, assert, equal } from "./test-runner.js";
+import { babyFeedingEngine } from "../engines/baby-feeding-engine.js";
+import { crearResultadoVacio, esResultadoValido } from "../utils/result-contract.js";
+import { entrada, contieneNumeroNoFinito } from "./fixtures.js";
+test("contrato vacío es completo",()=>assert(esResultadoValido(crearResultadoVacio())));
+test("pipeline conserva contrato",()=>assert(esResultadoValido(babyFeedingEngine(entrada()))));
+test("resultado no contiene NaN ni Infinity",()=>assert(!contieneNumeroNoFinito(babyFeedingEngine(entrada()))));
+test("contrato incluye señales",()=>assert(Array.isArray(babyFeedingEngine(entrada()).senales)));
+test("campos de perfil obligatorios están completos",()=>{const r=babyFeedingEngine(entrada());assert(r.edad.dias!==null);assert(r.peso!==null);assert(r.alimentacion.tipo);});
+test("entrada inválida conserva contrato",()=>{const r=babyFeedingEngine({});assert(esResultadoValido(r));equal(r.validacion.valido,false);});

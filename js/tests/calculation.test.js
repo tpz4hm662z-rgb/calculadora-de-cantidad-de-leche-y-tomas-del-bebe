@@ -1,0 +1,10 @@
+import { test, assert, equal } from "./test-runner.js";
+import { babyFeedingEngine } from "../engines/baby-feeding-engine.js";
+import { entrada } from "./fixtures.js";
+test("fórmula devuelve dos intervalos", () => { const r=babyFeedingEngine(entrada()); assert(r.rangoDiario.minimo<r.rangoDiario.maximo); assert(r.rangoPorToma.minimo<r.rangoPorToma.maximo); });
+test("fórmula usa tomas indicadas", () => equal(babyFeedingEngine(entrada()).numeroTomas.minimo, 5));
+test("leche extraída identifica recipiente", () => equal(babyFeedingEngine(entrada({ alimentacion:"extraida" })).rangoDiario.alcance, "ofrecido_en_recipiente"));
+test("mixta no calcula por toma", () => equal(babyFeedingEngine(entrada({ alimentacion:"mixta" })).rangoPorToma, null));
+test("materna no devuelve mililitros", () => { const r=babyFeedingEngine(entrada({ alimentacion:"materna" })); equal(r.rangoDiario,null); equal(r.rangoPorToma,null); });
+test("prematuro no devuelve cantidades", () => { const r=babyFeedingEngine(entrada({ nacimiento:"prematuro" })); equal(r.rangoDiario,null); equal(r.rangoPorToma,null); });
+test("complementaria no altera rango permitido", () => { const a=babyFeedingEngine(entrada({ edad:6 })); const b=babyFeedingEngine(entrada({ edad:6,complementaria:true,inicioComplementaria:6 })); equal(JSON.stringify(a.rangoDiario),JSON.stringify(b.rangoDiario)); });

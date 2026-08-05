@@ -1,0 +1,17 @@
+import { test, assert, equal } from "./test-runner.js";
+import { entrada, contieneNumeroNoFinito } from "./fixtures.js";
+import { instalarFakeDom, crearDestinos } from "./fake-dom.js";
+import { babyFeedingEngine } from "../engines/baby-feeding-engine.js";
+import { crearResultRenderer } from "../renderers/result-renderer.js";
+import { crearAlertsRenderer } from "../renderers/alerts-renderer.js";
+import { crearTimelineRenderer } from "../renderers/timeline-renderer.js";
+instalarFakeDom();
+test("pipeline completo llega al renderizador",()=>{const d=crearDestinos();const r=babyFeedingEngine(entrada());assert(crearResultRenderer(d)(r));assert(d.principal.children.length>0);assert(d.diario.children.length>0);});
+test("render fórmula muestra rango por toma",()=>{const d=crearDestinos();crearResultRenderer(d)(babyFeedingEngine(entrada()));equal(d.porToma.hidden,false);assert(d.porToma.children.length>0);});
+test("render materna oculta cantidades",()=>{const d=crearDestinos();crearResultRenderer(d)(babyFeedingEngine(entrada({alimentacion:"materna"})));assert(d.diario.hidden);assert(d.porToma.hidden);});
+test("render prematuro oculta cantidades",()=>{const d=crearDestinos();crearResultRenderer(d)(babyFeedingEngine(entrada({nacimiento:"prematuro"})));assert(d.diario.hidden);assert(d.porToma.hidden);});
+test("render extraída muestra contexto propio",()=>{const d=crearDestinos();crearResultRenderer(d)(babyFeedingEngine(entrada({alimentacion:"extraida"})));equal(d.diario.hidden,false);equal(d.porToma.hidden,false);});
+test("render mixta no muestra cantidad por toma",()=>{const d=crearDestinos();crearResultRenderer(d)(babyFeedingEngine(entrada({alimentacion:"mixta"})));assert(d.porToma.hidden);});
+test("alertas y timeline consumen contrato",()=>{const d=crearDestinos();const r=babyFeedingEngine(entrada());crearAlertsRenderer(d.alertas)(r);crearTimelineRenderer(d.timeline)(r);assert(d.timeline.children.length>0);});
+test("dos renders sustituyen contenido",()=>{const d=crearDestinos();const render=crearResultRenderer(d);render(babyFeedingEngine(entrada()));const n=d.principal.children.length;render(babyFeedingEngine(entrada({alimentacion:"materna"})));equal(d.principal.children.length,n);});
+test("render no introduce números no finitos",()=>assert(!contieneNumeroNoFinito(babyFeedingEngine(entrada()))));

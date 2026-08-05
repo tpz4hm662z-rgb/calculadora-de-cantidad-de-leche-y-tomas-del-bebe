@@ -1,0 +1,16 @@
+# Archivos de macOS
+.DS_Store
+
+# Configuración local de VS Code
+.vscode/
+
+# Dependencias futuras
+node_modules/
+
+# Archivos temporales
+*.log
+*.tmp
+
+# Variables de entorno
+.env
+.env.*

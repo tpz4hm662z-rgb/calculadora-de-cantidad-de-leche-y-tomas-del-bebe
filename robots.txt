@@ -1,0 +1,11 @@
+# =====================================================
+# Herramientas360 Template
+# robots.txt
+# Versión 3.0 Stable
+# =====================================================
+
+User-agent: *
+
+Allow: /
+
+Sitemap: https://tpz4hm662z-rgb.github.io/calculadora-cantidad-leche-tomas-bebe/sitemap.xml

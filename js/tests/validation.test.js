@@ -1,0 +1,14 @@
+import { test, assert, equal } from "./test-runner.js";
+import { convertirEdadADias, validarEntrada } from "../utils/validators.js";
+import { entrada } from "./fixtures.js";
+test("convierte días", () => equal(convertirEdadADias(8, "dias"), 8));
+test("convierte semanas", () => equal(convertirEdadADias(2, "semanas"), 14));
+test("convierte meses usando la duración media anual", () => equal(convertirEdadADias(3, "meses"), 91));
+test("convierte doce meses en un año", () => equal(convertirEdadADias(12, "meses"), 365));
+test("rechaza edad vacía", () => assert(!validarEntrada(entrada({ edad: null })).valido));
+test("rechaza peso cero", () => assert(!validarEntrada(entrada({ peso: 0 })).valido));
+test("rechaza peso infinito", () => assert(!validarEntrada(entrada({ peso: Infinity })).valido));
+test("rechaza tomas vacías", () => assert(!validarEntrada(entrada({ tomas: null })).valido));
+test("exige inicio de complementaria", () => assert(!validarEntrada(entrada({ complementaria: true, inicioComplementaria: null })).valido));
+test("rechaza inicio complementario posterior a la edad actual", () => assert(!validarEntrada(entrada({ edad: 5, complementaria: true, inicioComplementaria: 6 })).valido));
+test("acepta límites de edad y peso", () => assert(validarEntrada(entrada({ edad: 12, peso: 20 })).valido));
